@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
 import numpy as np
 import aocd
 import sys
@@ -22,21 +20,21 @@ s = [[eval(b) for b in d ] for d in s]
 
 def hashes(scanner):
     h = []
-    for b in scanner:
-        for d in scanner:
-            if b!=d:
-                h.append(sorted([abs(q-e) for q,e in zip(d,b)]))
-    return h
-h_s = [hashes(b) for b in s]
+    for i,b in enumerate(scanner):
+        for y,d in enumerate(scanner):
+            if i!=y:
+                h.append(np.sqrt(((b-d)**2).sum()))
+    return np.unique(h)
+
+h_s = [hashes(np.array(b)) for b in s]
 
 matches = {i:set() for i in range(len(s))}
 for q,w in enumerate(h_s):
     for e,r in enumerate(h_s):
         if q!=e:
-            if len([a for a in w if a in r])>=66:
+            if len(set(r).intersection(w))>=32:
                 matches[q].add(e)
                 matches[e].add(q)
-    progress(q,len(h_s),"Finding possible matches")
 
 def rotate_x_y(ar,d="xy"):
     if d=="xy":
