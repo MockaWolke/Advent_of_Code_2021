@@ -1,6 +1,10 @@
 import aocd 
 import re
 import numpy as np
+import time
+
+t = time.time()
+
 data =  [(b[1]=='n',[int(c) for c in re.findall(r'-?\d+',b)]) for b in aocd.get_data(day=22,year=2021).splitlines()]
 
 
@@ -53,3 +57,5 @@ for on,cube in data:
         
 print("Part 2")
 print_counts()
+
+print("Took",time.time()-t,"s")
